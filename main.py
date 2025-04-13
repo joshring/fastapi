@@ -233,9 +233,9 @@ async def post_event(
             
     except Exception as e: 
 
-        msg = f"error inserting event: {e}"
+        msg = f"error processing event: {e}"
         print(msg)
-        raise HTTPException(status_code=500, detail=msg)
+        raise HTTPException(status_code=500, detail="error processing event")
                 
     return response
 
