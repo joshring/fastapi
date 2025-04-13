@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Body, Depends, Header
 from fastapi.exceptions import HTTPException
 from http import HTTPStatus
-from pydantic import BaseModel, Field, AfterValidator
+from pydantic import BaseModel, Field, AfterValidator, model_validator
 
 from enum import Enum
 from typing import Annotated
@@ -64,11 +64,28 @@ class EventRespAlertCodes(int, Enum):
     sum_depo_gt_200_in_30s_window = 123
 
 
+class EventResponse(BaseModel):
+    alert: bool = Field(description="must only be set when alert_codes is populated")
+    alert_codes: set[EventRespAlertCodes]
+    user_id: int = Field(gt=0, description="Represents a unique user")
+
+    @model_validator(mode="after")
+    def check_card_number_omitted(self) -> "EventResponse":
+
+        if self.alert is True and len(self.alert_codes) == 0:
+            raise HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, "alert set in error, without error codes")
+
+        if self.alert is False and len(self.alert_codes) > 0:
+            raise HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, "alert not set in error, with error_codes")
+
+        return self
+
+
 @app.post("/event")
 async def post_event(
     new_event: Annotated[EventBody, Body()],
     conn: Annotated[Connection, Depends(db_conn)],
-):
+) -> EventResponse:
     """
     unusual activity notification
     """
@@ -226,4 +243,4 @@ async def post_event(
         print(msg)
         raise HTTPException(status_code=500, detail="error processing event")
 
-    return response
+    return EventResponse(**response)
