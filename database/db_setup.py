@@ -33,24 +33,22 @@ if db_name is None:
 
 db_conn_str = f"dbname={db_name} user={db_user} password={db_pass} host={db_host} port={db_port}"
 
+
 def get_db_connection_pool() -> AsyncConnectionPool:
     """
     connection pool
     opened from lifespan
     """
-    return AsyncConnectionPool(
-        conninfo=db_conn_str, 
-        open=False
-    )
+    return AsyncConnectionPool(conninfo=db_conn_str, open=False)
 
 
 async def db_conn(request: Request) -> AsyncGenerator[Any, Any]:
-    
+
     db_pool = cast(AsyncConnectionPool, request.state.db_pool)
     async with db_pool.connection() as conn:
         yield conn
-        
-        
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """
