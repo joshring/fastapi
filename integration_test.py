@@ -3,6 +3,8 @@ import time
 import psycopg
 from database.db_setup import db_conn_str
 
+## These tests are designed to run against a running API and database, which you can start via 
+# docker compose up --build 
 
 def db_cleanup():
     """
