@@ -1,0 +1,39 @@
+services:
+
+
+  api:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    environment:
+      DB_PORT: 5432
+      DB_HOST: db
+      DB_PASS: password
+      DB_USER: postgres
+      DB_NAME: midnite
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/code/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  db:
+    image: postgres
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: midnite
+    volumes:
+      - ./database/schema:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
