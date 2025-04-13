@@ -75,14 +75,14 @@ async def post_event(
     
     response = {
         "alert": False,
-        "alert_codes": [],
+        "alert_codes": set(),
         "user_id": new_event.user_id
     }
 
 
     if float(new_event.amount) > 100 and new_event.type is EventBodyType.withdraw:
         response["alert"] = True
-        response["alert_codes"].append( EventRespAlertCodes.withdr_over_100 )
+        response["alert_codes"].add( EventRespAlertCodes.withdr_over_100 )
 
     cur = conn.cursor(row_factory=dict_row)    
 
@@ -141,7 +141,7 @@ async def post_event(
                 # The new_event.type is a withdraw and the two most recent historical ones are too, add alert_codes
                 if query_result.get("two_prev_events_withdraws") == True:
                     response["alert"] = True
-                    response["alert_codes"].append( EventRespAlertCodes.three_conseq_withdr )
+                    response["alert_codes"].add( EventRespAlertCodes.three_conseq_withdr )
                     
             
             #=================================================
@@ -174,7 +174,7 @@ async def post_event(
                     
                     if (float(query_result["sum_historical_events"]) + float(new_event.amount)) > 200.0:
                         response["alert"] = True
-                        response["alert_codes"].append( EventRespAlertCodes.sum_depo_gt_200_in_30s_window )
+                        response["alert_codes"].add( EventRespAlertCodes.sum_depo_gt_200_in_30s_window )
 
 
                 query = await cur.execute(
@@ -203,7 +203,7 @@ async def post_event(
                     # The deposit is the third consequtive (recent) deposit and is increasing
                     if query_result[1]["amount"] < query_result[0]["amount"] < float(new_event.amount):
                         response["alert"] = True
-                        response["alert_codes"].append( EventRespAlertCodes.three_conseq_depo_incr )
+                        response["alert_codes"].add( EventRespAlertCodes.three_conseq_depo_incr )
             
             
             #=================================================
