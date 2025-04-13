@@ -13,7 +13,8 @@ create table if not exists events (
 	amount 		numeric(12,2) not null,
 	event_type 	varchar not null,
 	alert 		bool not null,
-	alert_codes jsonb
+	alert_codes jsonb,
+	unique(user_id, t)
 );
 
 -- Seed the users table with a user for testing purposes
