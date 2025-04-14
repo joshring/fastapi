@@ -38,7 +38,6 @@ DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=midnite pytest
 ```
 
 #### Finished
-- Exit the api
 ```bash
 docker compose down
 ```
