@@ -50,7 +50,7 @@ docker compose down
 python3 -m venv .venv
 ```
 
-#### Active Virtual Environment
+#### Activate Virtual Environment
 ```bash
 source .venv/bin/activate
 ```
