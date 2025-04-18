@@ -10,7 +10,7 @@ services:
       DB_HOST: db
       DB_PASS: password
       DB_USER: postgres
-      DB_NAME: midnite
+      DB_NAME: dbname
     ports:
       - "8000:8000"
     volumes:
@@ -28,7 +28,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: midnite
+      POSTGRES_DB: dbname
     volumes:
       - ./database/schema:/docker-entrypoint-initdb.d
     healthcheck:

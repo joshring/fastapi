@@ -5,30 +5,26 @@ from fastapi import Request
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
+
 db_port = os.environ.get("DB_PORT")
 if db_port is None:
-    print("missing env var: DB_PORT")
-    raise ValueError
+    raise ValueError("missing env var: DB_PORT")
 
 db_host = os.environ.get("DB_HOST")
 if db_host is None:
-    print("missing env var: DB_HOST")
-    raise ValueError
+    raise ValueError("missing env var: DB_HOST")
 
 db_pass = os.environ.get("DB_PASS")
 if db_pass is None:
-    print("missing env var: DB_PASS")
-    raise ValueError
+    raise ValueError("missing env var: DB_PASS")
 
 db_user = os.environ.get("DB_USER")
 if db_user is None:
-    print("missing env var: DB_USER")
-    raise ValueError
+    raise ValueError("missing env var: DB_USER")
 
 db_name = os.environ.get("DB_NAME")
 if db_name is None:
-    print("missing env var: DB_NAME")
-    raise ValueError
+    raise ValueError("missing env var: DB_NAME")
 
 
 db_conn_str = f"dbname={db_name} user={db_user} password={db_pass} host={db_host} port={db_port}"

@@ -34,7 +34,7 @@ docker compose up --build
 
 #### Run Integration Tests
 ```bash
-DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=midnite pytest
+DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=dbname pytest
 ```
 
 #### Finished
@@ -68,12 +68,12 @@ docker compose up db -d
 
 #### Running The API
 ```bash
-DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=midnite fastapi dev main.py
+DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=dbname fastapi dev main.py
 ```
 
 #### Running The Integration Tests
 ```bash
-DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=midnite pytest
+DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=dbname pytest
 ```
 
 #### Finished
