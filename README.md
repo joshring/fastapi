@@ -38,7 +38,6 @@ DB_PORT=5432 DB_HOST=localhost DB_USER=postgres DB_NAME=dbname pytest
 ```
 
 #### Finished
-- Exit the api
 ```bash
 docker compose down
 ```
@@ -51,7 +50,7 @@ docker compose down
 python3 -m venv .venv
 ```
 
-#### Active Virtual Environment
+#### Activate Virtual Environment
 ```bash
 source .venv/bin/activate
 ```
